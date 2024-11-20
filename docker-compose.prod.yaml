@@ -2,25 +2,23 @@ version: '3.8'
 
 services:
   web:
-    image: djangoproject
-    build: .
+    image: adamrit/djangoproject:latest
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
     environment:
       - DJANGO_SETTINGS_MODULE=DjangoProject.settings
+      - DATABASE_URL=postgres://django_user:django_password@db:5432/django_db
     depends_on:
       - db
     networks:
       - django_network
 
   db:
-    image: postgres:alpine
+    image: adamrit/postgres:alpine
     environment:
-      - POSTGRES_DB=django_db
-      - POSTGRES_USER=django_user
-      - POSTGRES_PASSWORD=django_password
+      POSTGRES_DB: django_db
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_password
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
